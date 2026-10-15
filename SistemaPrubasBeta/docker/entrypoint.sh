@@ -24,6 +24,7 @@ set_env() {
 set_env APP_NAME "${APP_NAME:-AstroSoft}"
 set_env APP_ENV "${APP_ENV:-local}"
 set_env APP_DEBUG "${APP_DEBUG:-true}"
+set_env APP_KEY "${APP_KEY:-}"
 set_env APP_URL "${APP_URL:-http://localhost:8001}"
 set_env DB_CONNECTION "${DB_CONNECTION:-mysql}"
 set_env DB_HOST "${DB_HOST:-mysql}"
@@ -39,10 +40,15 @@ set_env FRONTEND_URL "${FRONTEND_URL:-http://localhost:4200}"
 chown app:app .env
 
 if [ ! -d vendor ] || [ ! -f vendor/autoload.php ]; then
-    gosu app composer install --no-interaction --prefer-dist --no-progress
+    gosu app composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts
 fi
 
-if ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
+if [ "${APP_ENV:-local}" = "production" ] && ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
+    echo "APP_KEY must be a persistent base64 key in production."
+    exit 1
+fi
+
+if [ "${APP_ENV:-local}" != "production" ] && ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
     gosu app php artisan key:generate --force
 fi
 
@@ -52,7 +58,13 @@ if [ "${DB_CONNECTION:-}" = "mysql" ]; then
         sleep 3
     done
 
-    gosu app php artisan migrate --force
+    if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
+        gosu app php artisan migrate --force
+    fi
+fi
+
+if [ "${APP_ENV:-local}" = "production" ]; then
+    gosu app php artisan config:cache
 fi
 
 exec gosu app "$@"

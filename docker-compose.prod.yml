@@ -1,0 +1,34 @@
+name: sisdumath
+
+services:
+  proxy:
+    extends:
+      file: docker-compose.yml
+      service: proxy
+
+  frontend:
+    extends:
+      file: docker-compose.yml
+      service: frontend
+
+  backend:
+    extends:
+      file: docker-compose.yml
+      service: backend
+
+  mysql:
+    extends:
+      file: docker-compose.yml
+      service: mysql
+
+  adminer:
+    extends:
+      file: docker-compose.yml
+      service: adminer
+
+volumes:
+  mysql_data:
+
+networks:
+  dumath:
+    driver: bridge

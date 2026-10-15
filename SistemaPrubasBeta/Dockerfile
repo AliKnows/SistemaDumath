@@ -18,7 +18,7 @@ RUN groupadd --gid 1000 app \
 
 WORKDIR /var/www/html
 
-COPY composer.json ./
+COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --no-scripts
 COPY . .
 

@@ -1,65 +1,98 @@
 services:
+  proxy:
+    build:
+      context: ./deploy/nginx
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:-_}
+    ports:
+      - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-8080}:80"
+    depends_on:
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_started
+    networks:
+      - dumath
+
   frontend:
     build:
       context: ./sistem-Dumath-Front
-    depends_on:
-      backend:
-        condition: service_started
-    ports:
-      - "${FRONTEND_PORT:-80}:80"
-    networks: [dumath]
+      args:
+        PUBLIC_API_URL: ${PUBLIC_API_URL:-/api}
     restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - dumath
 
   backend:
     build:
       context: ./SistemaPrubasBeta
+    restart: unless-stopped
+    expose:
+      - "8000"
     environment:
       APP_NAME: DUMATH
       APP_ENV: ${APP_ENV:-production}
       APP_DEBUG: ${APP_DEBUG:-false}
-      APP_URL: ${APP_URL:-http://localhost:8001}
+      APP_KEY: ${APP_KEY:-}
+      APP_URL: ${APP_URL:-http://localhost}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-localhost}
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
       DB_DATABASE: ${DB_DATABASE:-dumath}
       DB_USERNAME: ${DB_USERNAME:-dumath}
-      DB_PASSWORD: ${DB_PASSWORD:-dumath_password}
-      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
-      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-localhost}
+      DB_PASSWORD: ${DB_PASSWORD:-}
+      CACHE_STORE: database
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: database
+      LOG_CHANNEL: stderr
+      LOG_LEVEL: ${LOG_LEVEL:-warning}
+      RUN_MIGRATIONS: ${RUN_MIGRATIONS:-true}
     depends_on:
       mysql:
         condition: service_healthy
-    ports:
-      - "${BACKEND_PORT:-8001}:8000"
-    networks: [dumath]
-    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@fsockopen('127.0.0.1', 8000) ? 0 : 1);"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dumath
 
   mysql:
     image: mysql:8.4
+    restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-dumath}
       MYSQL_USER: ${DB_USERNAME:-dumath}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-dumath_password}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_password}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-}
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
-      interval: 5s
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
       timeout: 5s
-      retries: 20
-    networks: [dumath]
-    restart: unless-stopped
+      retries: 15
+    networks:
+      - dumath
 
   adminer:
     image: adminer:4
+    restart: unless-stopped
+    profiles:
+      - tools
+    ports:
+      - "127.0.0.1:${ADMINER_PORT:-8081}:8080"
     depends_on:
       mysql:
         condition: service_healthy
-    ports:
-      - "${ADMINER_PORT:-8080}:8080"
-    networks: [dumath]
-    restart: unless-stopped
+    networks:
+      - dumath
 
 volumes:
   mysql_data:
