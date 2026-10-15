@@ -1,0 +1,208 @@
+---
+import favicon from '../assets/images/logo.jpg';
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/jpeg" href={favicon.src} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{Astro.props.title || "Sistema de Registro y Juego"}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--bg-dark: #0a0314;
+		--bg-surface: #140726;
+		--bg-panel: #1e0b38;
+		--bg-card: #270f47;
+		--bg-input: #120524;
+		
+		--color-purple-primary: #8b2fc9;
+		--color-purple-glow: #a855f7;
+		--color-purple-dark: #4c1d95;
+		--color-purple-soft: #3b1764;
+		
+		--color-yellow-primary: #ffe600;
+		--color-yellow-hover: #ffea38;
+		--color-yellow-dark: #bfa800;
+		--color-yellow-glow: rgba(255, 230, 0, 0.45);
+		
+		--text-white: #ffffff;
+		--text-light: #f3e8ff;
+		--text-muted: #a78bfa;
+		--text-dark: #0a0314;
+		
+		--border-retro-purple: 2px solid #8b2fc9;
+		--border-retro-yellow: 2px solid #ffe600;
+		--shadow-retro-purple: 0 0 16px rgba(139, 47, 201, 0.4);
+		--shadow-retro-yellow: 0 0 16px rgba(255, 230, 0, 0.35);
+		
+		--font-retro: 'Press Start 2P', monospace;
+		--font-ui: 'Chakra Petch', sans-serif;
+	}
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	html,
+	body {
+		width: 100%;
+		min-height: 100vh;
+		background-color: var(--bg-dark);
+		color: var(--text-light);
+		font-family: var(--font-ui);
+		background-image: 
+			radial-gradient(circle at 50% 0%, rgba(139, 47, 201, 0.18) 0%, transparent 60%),
+			linear-gradient(rgba(255, 230, 0, 0.02) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 230, 0, 0.02) 1px, transparent 1px);
+		background-size: 100% 100%, 32px 32px, 32px 32px;
+		background-attachment: fixed;
+		overflow-x: hidden;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	/* Retro Buttons */
+	.retro-btn-yellow {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-retro);
+		font-size: 0.75rem;
+		padding: 10px 20px;
+		background-color: var(--color-yellow-primary);
+		color: var(--text-dark);
+		border: 2px solid #ffffff;
+		box-shadow: 4px 4px 0px #581c87;
+		text-transform: uppercase;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		letter-spacing: 0.5px;
+	}
+
+	.retro-btn-yellow:hover {
+		background-color: var(--color-yellow-hover);
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0px #7e22ce;
+	}
+
+	.retro-btn-yellow:active {
+		transform: translate(2px, 2px);
+		box-shadow: 2px 2px 0px #581c87;
+	}
+
+	.retro-btn-purple {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-retro);
+		font-size: 0.75rem;
+		padding: 10px 20px;
+		background-color: var(--bg-panel);
+		color: var(--color-yellow-primary);
+		border: 2px solid var(--color-purple-primary);
+		box-shadow: 4px 4px 0px #120324;
+		text-transform: uppercase;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		letter-spacing: 0.5px;
+	}
+
+	.retro-btn-purple:hover {
+		background-color: var(--color-purple-dark);
+		border-color: var(--color-yellow-primary);
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0px #ffe600;
+	}
+
+	.retro-btn-purple:active {
+		transform: translate(2px, 2px);
+		box-shadow: 2px 2px 0px #120324;
+	}
+
+	/* Retro Inputs */
+	.retro-input {
+		width: 100%;
+		background-color: var(--bg-input);
+		border: 2px solid var(--color-purple-soft);
+		color: var(--text-white);
+		padding: 12px 16px;
+		font-family: var(--font-ui);
+		font-size: 1rem;
+		outline: none;
+		transition: all 0.2s ease;
+		box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5);
+	}
+
+	.retro-input:focus {
+		border-color: var(--color-yellow-primary);
+		box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(255, 230, 0, 0.35);
+	}
+
+	.retro-input::placeholder {
+		color: var(--text-muted);
+		opacity: 0.7;
+	}
+
+	/* Retro Card Frame */
+	.retro-card {
+		background-color: var(--bg-surface);
+		border: 2px solid var(--color-purple-primary);
+		box-shadow: 0 0 20px rgba(139, 47, 201, 0.25), inset 0 0 15px rgba(139, 47, 201, 0.15);
+		position: relative;
+	}
+
+	.retro-card::before {
+		content: "";
+		position: absolute;
+		top: -2px;
+		left: -2px;
+		width: 8px;
+		height: 8px;
+		background: var(--color-yellow-primary);
+	}
+
+	.retro-card::after {
+		content: "";
+		position: absolute;
+		bottom: -2px;
+		right: -2px;
+		width: 8px;
+		height: 8px;
+		background: var(--color-yellow-primary);
+	}
+
+	/* Scrollbars */
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--bg-dark);
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-purple-primary);
+		border: 1px solid var(--color-yellow-primary);
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-yellow-primary);
+	}
+</style>

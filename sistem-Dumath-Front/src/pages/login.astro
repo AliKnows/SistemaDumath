@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import background from '../assets/images/BackgroundDUMATH.jpg';
+import background3 from '../assets/images/3BackgroundDUMATH.jpg';
+import background4 from '../assets/images/4BackgroundDUMATH.jpg';
+import logo from '../assets/images/LOGO-remo.png';
+---
+
+<Layout title="DUMATH | Acceso">
+	<main class="auth-screen">
+		<div class="auth-background" aria-hidden="true">
+			<img src={background.src} alt="" />
+			<img src={background3.src} alt="" />
+			<img src={background4.src} alt="" />
+		</div>
+		<section class="auth-card retro-card">
+			<img class="auth-logo" src={logo.src} alt="DUMATH" />
+			<h1>INICIAR SESIÓN</h1>
+			<p class="intro">Iniciar Aventura</p>
+
+			<form id="login-form" class="auth-form">
+				<label for="email">CORREO</label>
+				<input class="retro-input" id="email" name="email" type="email" required autocomplete="username" />
+				<label for="password">CONTRASEÑA</label>
+				<input class="retro-input" id="password" name="password" type="password" required autocomplete="current-password" />
+				<button class="retro-btn-yellow" type="submit">ENTRAR</button>
+				<p id="form-message" class="form-message" role="alert"></p>
+			</form>
+
+			<a class="secondary-link" href="/registro">CREAR CUENTA</a>
+		</section>
+	</main>
+</Layout>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>('#login-form');
+	const message = document.querySelector<HTMLParagraphElement>('#form-message');
+	const button = form?.querySelector<HTMLButtonElement>('button');
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		if (!form || !button || !message) return;
+		button.disabled = true;
+		button.textContent = 'VALIDANDO';
+		message.textContent = '';
+
+		try {
+			const response = await fetch('/api/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+				body: JSON.stringify(Object.fromEntries(new FormData(form))),
+			});
+			const data = await response.json();
+			if (!response.ok) throw new Error(data.message || 'No se pudo iniciar sesión.');
+			localStorage.setItem('dumath_token', data.access_token);
+			localStorage.setItem('dumath_user', JSON.stringify(data.user));
+			window.location.assign('/panel');
+		} catch (error) {
+			message.textContent = error instanceof Error ? error.message : 'Error de conexión.';
+			button.disabled = false;
+			button.textContent = 'ENTRAR';
+		}
+	});
+</script>
+
+<style>
+	.auth-screen { min-height: 100vh; display: grid; place-items: center; padding: 32px 24px; position: relative; isolation: isolate; overflow: hidden; }
+	.auth-background, .auth-background::after { position: absolute; inset: 0; }
+	.auth-background { z-index: -2; background: var(--bg-dark); }
+	.auth-background::after { content: ''; z-index: 1; background: linear-gradient(90deg, rgba(9, 2, 20, .86), rgba(9, 2, 20, .54), rgba(9, 2, 20, .86)); }
+	.auth-screen::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .12; background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .18) 0, rgba(255, 255, 255, .18) 1px, transparent 1px, transparent 4px); }
+	.auth-background img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: background-cycle 80s infinite; }
+	.auth-background img:nth-child(2) { animation-delay: 20s; }
+	.auth-background img:nth-child(3) { animation-delay: 40s; }
+	.auth-card { width: min(100%, 540px); padding: 52px 48px; text-align: center; background: rgba(20, 7, 38, .72); backdrop-filter: blur(5px); border: 5px solid var(--color-yellow-primary); box-shadow: 7px 7px 0 rgba(30, 11, 56, .9), 0 0 22px rgba(255, 230, 0, .42), inset 0 0 24px rgba(255, 230, 0, .12); animation: card-tune 3.2s ease-in-out infinite; }
+	.auth-logo { display: block; width: min(100%, 380px); height: auto; max-height: 180px; object-fit: contain; margin: 0 auto 30px; filter: drop-shadow(0 0 10px rgba(255, 230, 0, .3)); }
+	h1 { margin: 20px 0 8px; font-family: var(--font-retro); font-size: 1.15rem; }
+	.intro { color: var(--text-muted); margin-bottom: 28px; }
+	.auth-form { display: grid; gap: 10px; text-align: left; }
+	.auth-form label { color: var(--color-yellow-primary); font-family: var(--font-retro); font-size: .62rem; margin-top: 8px; }
+	.auth-form button { margin-top: 16px; }
+	.form-message { min-height: 20px; color: #fca5a5; text-align: center; font-size: .9rem; }
+	.secondary-link { display: inline-block; margin-top: 20px; color: var(--color-yellow-primary); font-family: var(--font-retro); font-size: .6rem; }
+	.secondary-link:hover { text-decoration: underline; }
+	button:disabled { cursor: wait; opacity: .65; }
+	@keyframes background-cycle { 0%, 20% { opacity: 1; } 25%, 95% { opacity: 0; } 100% { opacity: 1; } }
+	@keyframes card-tune { 0%, 100% { transform: translateX(0); border-color: #ffe600; box-shadow: 7px 7px 0 rgba(30, 11, 56, .9), 0 0 22px rgba(255, 230, 0, .42), inset 0 0 24px rgba(255, 230, 0, .12); } 28% { transform: translateX(-1px); border-color: #fff36b; box-shadow: 8px 8px 0 rgba(30, 11, 56, .92), 0 0 38px rgba(255, 230, 0, .72), inset 0 0 28px rgba(255, 230, 0, .2); } 32% { transform: translateX(1px); } 36% { transform: translateX(-0.5px); } 60% { border-color: #ffe600; } }
+	@media (prefers-reduced-motion: reduce) { .auth-background img, .auth-card { animation: none; } .auth-background img:first-child { opacity: 1; } }
+</style>

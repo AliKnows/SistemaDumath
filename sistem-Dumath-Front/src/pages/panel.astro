@@ -1,0 +1,914 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Panel de Control - DUMATH">
+	<div class="panel-layout">
+		<!-- Topbar estilo DUMATH -->
+		<header class="panel-topbar">
+			<div class="topbar-brand">
+				<span class="brand-text">DUMATH</span>
+				<button class="hamburger-btn" aria-label="Abrir menú">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</div>
+
+			<div class="topbar-user">
+				<div class="user-chip">
+					<div class="user-avatar-circle">
+						<svg viewBox="0 0 24 24" class="svg-icon" fill="currentColor">
+							<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+						</svg>
+					</div>
+				<span id="topbar-username" class="topbar-username">USUARIO</span>
+				</div>
+				<a href="/login" id="logout" class="btn-salir">SALIR</a>
+			</div>
+		</header>
+
+		<div class="panel-body-container">
+			<!-- Left Sidebar -->
+			<aside class="panel-sidebar">
+				<div class="sidebar-profile">
+					<div class="profile-avatar-wrapper">
+						<svg viewBox="0 0 24 24" class="profile-svg" fill="currentColor">
+							<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+						</svg>
+					</div>
+					<div class="profile-meta">
+						<span id="profile-name" class="profile-name">USUARIO</span>
+						<span class="profile-status">
+							<span class="status-dot-green"></span> Online
+						</span>
+					</div>
+				</div>
+
+				<div class="sidebar-section-title">MENU PRINCIPAL</div>
+
+				<nav class="sidebar-navigation">
+					<a href="/panel" class="sidebar-item active">
+						<span class="item-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+						</span>
+						<span class="item-label">Inicio</span>
+					</a>
+
+					<a href="/demo" class="sidebar-item">
+						<span class="item-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+						</span>
+						<span class="item-label">Jugar</span>
+					</a>
+
+					<a href="#usuarios" class="sidebar-item">
+						<span class="item-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+						</span>
+						<span class="item-label">Comunidad</span>
+					</a>
+
+					<a href="#retos" class="sidebar-item">
+						<span class="item-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+						</span>
+						<span class="item-label">Retos Matematicos</span>
+					</a>
+
+					<a href="#reportes" class="sidebar-item reports-item">
+						<span class="item-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+						</span>
+						<span class="item-label">Reportes</span>
+					</a>
+
+					<a href="#configuracion" class="sidebar-item">
+						<span class="item-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+						</span>
+						<span class="item-label">Configuracion</span>
+					</a>
+
+					<a href="/login" class="sidebar-item logout-link">
+						<span class="item-icon logout-icon">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+						</span>
+						<span class="item-label">Cerrar Sesion</span>
+					</a>
+				</nav>
+			</aside>
+
+			<!-- Main Panel Content Area -->
+			<main class="panel-content-area">
+				<!-- Title Section -->
+				<div class="panel-title-bar">
+					<div class="title-left">
+						<h1 class="main-heading">Panel de Control</h1>
+						<span class="version-label">Version 1.0</span>
+					</div>
+					<div class="title-right">
+						<span class="breadcrumb-item">Inicio</span>
+					</div>
+				</div>
+
+				<!-- 4 Metric Cards Row (Exact colors & icons from the screenshot) -->
+				<section class="metric-cards-row">
+					<!-- Card 1: Partidas Jugadas (Purple) -->
+					<div class="metric-box bg-purple-metric">
+						<div class="metric-icon-slot">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+						</div>
+						<div class="metric-content">
+							<span class="metric-title">PARTIDAS JUGADAS</span>
+							<span id="metric-players" class="metric-number">0</span>
+						</div>
+					</div>
+
+					<!-- Card 2: Estudiantes (Green/Teal) -->
+					<div class="metric-box bg-green-metric">
+						<div class="metric-icon-slot">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+						</div>
+						<div class="metric-content">
+							<span class="metric-title">ESTUDIANTES</span>
+							<span id="metric-students" class="metric-number">0</span>
+						</div>
+					</div>
+
+					<!-- Card 3: Retos Activos (Orange) -->
+					<div class="metric-box bg-orange-metric">
+						<div class="metric-icon-slot">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+						</div>
+						<div class="metric-content">
+							<span class="metric-title">RETOS ACTIVOS</span>
+							<span id="metric-challenges" class="metric-number">16</span>
+						</div>
+					</div>
+
+					<!-- Card 4: Docentes (Blue) -->
+					<div class="metric-box bg-blue-metric">
+						<div class="metric-icon-slot">
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+						</div>
+						<div class="metric-content">
+							<span class="metric-title">DOCENTES</span>
+							<span id="metric-teachers" class="metric-number">0</span>
+						</div>
+					</div>
+				</section>
+
+				<!-- Split Content Layout (Ultimos Registros + Acceso al Juego) -->
+				<div class="panel-columns-grid">
+					<!-- Left Section: Ultimos Registros -->
+					<section class="panel-card registros-card">
+						<div class="card-top-bar">
+							<h3 class="card-section-heading">DUMATH</h3>
+							<div class="window-controls">
+								<span class="win-btn">-</span>
+								<span class="win-btn">x</span>
+							</div>
+						</div>
+
+						<div class="dumath-info">
+							<p>DUMATH es un videojuego RPG educativo e inmersivo para aprender matemáticas, diseñado como una metodología complementaria para estudiantes nativos digitales de educación básica en el Perú. Está orientado a incrementar la motivación y potenciar el alto rendimiento académico.</p>
+							<p>Integra gamificación, narrativa inmersiva y retos matemáticos alineados con las competencias establecidas por el Ministerio de Educación del Perú (MINEDU). Como RPG educativo de matemáticas, estimula el pensamiento crítico y la resolución de problemas bajo presión, además de la concentración, perseverancia y agilidad mental.</p>
+						</div>
+						<div class="table-responsive">
+							<table class="panel-table">
+								<thead>
+									<tr>
+										<th>Orden N°</th>
+										<th>Estudiante</th>
+										<th>Fecha</th>
+										<th>Puntaje</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="col-num">10</td>
+										<td class="col-estudiante">Joaquin Obed</td>
+										<td class="col-fecha">11-03-2026</td>
+										<td class="col-puntaje">195.70</td>
+									</tr>
+									<tr>
+										<td class="col-num">9</td>
+										<td class="col-estudiante">Carlos Loaiza</td>
+										<td class="col-fecha">04-03-2026</td>
+										<td class="col-puntaje">182.70</td>
+									</tr>
+									<tr>
+										<td class="col-num">8</td>
+										<td class="col-estudiante">Mateo Huaman</td>
+										<td class="col-fecha">04-03-2026</td>
+										<td class="col-puntaje">28.25</td>
+									</tr>
+									<tr>
+										<td class="col-num">7</td>
+										<td class="col-estudiante">Lucia Quispe</td>
+										<td class="col-fecha">02-03-2026</td>
+										<td class="col-puntaje">5.00</td>
+									</tr>
+									<tr>
+										<td class="col-num">6</td>
+										<td class="col-estudiante">Diego Mendoza</td>
+										<td class="col-fecha">28-02-2026</td>
+										<td class="col-puntaje">0.00</td>
+									</tr>
+									<tr>
+										<td class="col-num">5</td>
+										<td class="col-estudiante">Industrias P&C</td>
+										<td class="col-fecha">24-02-2026</td>
+										<td class="col-puntaje">124.95</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="registros-footer">
+							<button type="button" class="btn-nuevo-registro">NUEVO REGISTRO</button>
+							<a href="#partidas" class="link-ver-partidas">Ver Todas las Partidas</a>
+						</div>
+					</section>
+
+					<!-- Right Section: Acceso al Juego -->
+					<section class="panel-card acceso-juego-card">
+						<div class="card-top-bar">
+							<h3 class="card-section-heading">Acceso al Juego</h3>
+							<div class="window-controls">
+								<span class="win-btn">-</span>
+								<span class="win-btn">x</span>
+							</div>
+						</div>
+
+						<div class="juego-items-wrapper">
+							<!-- Box 1: Videojuego DUMATH -->
+							<div class="juego-box-item">
+								<div class="juego-box-info">
+									<h4 class="juego-item-title">Videojuego DUMATH</h4>
+									<p class="juego-item-desc">Motor RPG de Matematicas</p>
+								</div>
+								<a href="/demo" class="btn-jugar-small">JUGAR</a>
+							</div>
+
+							<!-- Box 2: Reto Multiplicaciones -->
+							<div class="juego-box-item">
+								<div class="juego-box-info">
+									<h4 class="juego-item-title">Reto: Multiplicaciones</h4>
+									<p class="juego-item-desc">Nivel 4 Primaria</p>
+								</div>
+								<span class="badge-activo">Activo</span>
+							</div>
+
+							<!-- Box 3: Reto Fracciones -->
+							<div class="juego-box-item">
+								<div class="juego-box-info">
+									<h4 class="juego-item-title">Reto: Fracciones</h4>
+									<p class="juego-item-desc">Nivel 3 Primaria</p>
+								</div>
+								<span class="badge-activo">Activo</span>
+							</div>
+						</div>
+
+						<div class="acceso-footer">
+							<a href="/demo" class="link-pantalla-juego">Ir a la pantalla de juego</a>
+						</div>
+					</section>
+				</div>
+			</main>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	const token = localStorage.getItem('dumath_token');
+	if (!token) window.location.replace('/login');
+
+	const user = JSON.parse(localStorage.getItem('dumath_user') || '{}');
+	for (const element of document.querySelectorAll('#topbar-username, #profile-name')) {
+		element.textContent = user.name || user.email || 'USUARIO';
+	}
+
+	const dashboardResponse = await fetch('/api/dashboard', {
+		headers: { Authorization: 'Bearer ' + token, Accept: 'application/json' },
+	});
+	if (dashboardResponse.ok) {
+		const dashboard = await dashboardResponse.json();
+		document.querySelector('#metric-players').textContent = dashboard.players;
+		document.querySelector('#metric-students').textContent = dashboard.students;
+		document.querySelector('#metric-challenges').textContent = dashboard.challenges;
+		document.querySelector('#metric-teachers').textContent = dashboard.teachers;
+	}
+
+	document.querySelectorAll<HTMLAnchorElement>('#logout, .logout-link').forEach((link) => {
+		link.addEventListener('click', async (event) => {
+			event.preventDefault();
+			await fetch('/api/logout', { method: 'POST', headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } });
+			localStorage.removeItem('dumath_token');
+			localStorage.removeItem('dumath_user');
+			window.location.assign('/login');
+		});
+	});
+</script>
+
+<style>
+	.reports-item { display: none; }
+
+	.dumath-info {
+		min-height: 190px;
+		display: flex;
+		align-items: center;
+		padding: 24px;
+		background: linear-gradient(135deg, rgba(126, 34, 206, .2), rgba(20, 4, 40, .9));
+		border: 1px solid #581c87;
+	}
+
+	.dumath-info p {
+		color: #e9d5ff;
+		font-size: 1rem;
+		line-height: 1.7;
+	}
+
+	.dumath-info p + p {
+		margin-top: 16px;
+	}
+
+	.registros-card .table-responsive,
+	.registros-card .registros-footer {
+		display: none;
+	}
+
+	.panel-layout {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		background: #090214;
+		color: #ffffff;
+	}
+
+	/* Topbar */
+	.panel-topbar {
+		height: 56px;
+		background: #140428;
+		border-bottom: 2px solid #581c87;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 20px;
+		z-index: 50;
+	}
+
+	.topbar-brand {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.brand-text {
+		font-family: var(--font-retro);
+		font-size: 1.15rem;
+		color: #ffffff;
+		letter-spacing: 2px;
+	}
+
+	.hamburger-btn {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 4px;
+	}
+
+	.hamburger-btn span {
+		width: 18px;
+		height: 2px;
+		background: #ffffff;
+		display: block;
+	}
+
+	.topbar-user {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+	}
+
+	.user-chip {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.user-avatar-circle {
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		border: 1px solid #ffe600;
+		background: #250a47;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #ffe600;
+	}
+
+	.svg-icon {
+		width: 18px;
+		height: 18px;
+	}
+
+	.topbar-username {
+		font-family: var(--font-ui);
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: #ffffff;
+	}
+
+	.btn-salir {
+		font-family: var(--font-retro);
+		font-size: 0.65rem;
+		color: #ffe600;
+		background: transparent;
+		border: 1px solid #ffe600;
+		padding: 5px 12px;
+		text-decoration: none;
+		transition: all 0.15s ease;
+	}
+
+	.btn-salir:hover {
+		background: #ffe600;
+		color: #000000;
+	}
+
+	/* Body Container */
+	.panel-body-container {
+		display: flex;
+		flex: 1;
+	}
+
+	/* Left Sidebar */
+	.panel-sidebar {
+		width: 230px;
+		background: #0f031f;
+		border-right: 2px solid #581c87;
+		display: flex;
+		flex-direction: column;
+		flex-shrink: 0;
+	}
+
+	.sidebar-profile {
+		padding: 16px 14px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		border-bottom: 1px solid #280a4e;
+	}
+
+	.profile-avatar-wrapper {
+		width: 42px;
+		height: 42px;
+		border-radius: 50%;
+		border: 2px solid #ffe600;
+		background: #1e073c;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #ffe600;
+		flex-shrink: 0;
+	}
+
+	.profile-svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.profile-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		overflow: hidden;
+	}
+
+	.profile-name {
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: #ffffff;
+		white-space: nowrap;
+	}
+
+	.profile-status {
+		font-size: 0.75rem;
+		color: #4ade80;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.status-dot-green {
+		width: 6px;
+		height: 6px;
+		background: #4ade80;
+		border-radius: 50%;
+		display: inline-block;
+	}
+
+	.sidebar-section-title {
+		font-family: var(--font-retro);
+		font-size: 0.55rem;
+		color: #a78bfa;
+		padding: 14px 14px 6px 14px;
+		letter-spacing: 0.5px;
+	}
+
+	.sidebar-navigation {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 0 8px;
+	}
+
+	.sidebar-item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 9px 12px;
+		color: #cbd5e1;
+		text-decoration: none;
+		font-size: 0.88rem;
+		transition: all 0.15s ease;
+	}
+
+	.sidebar-item:hover {
+		color: #ffe600;
+		background: #1f073d;
+	}
+
+	.sidebar-item.active {
+		background: #250947;
+		color: #ffe600;
+		font-weight: 600;
+		border-left: 3px solid #ffe600;
+	}
+
+	.item-icon {
+		width: 16px;
+		height: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.item-icon svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.logout-link {
+		color: #f87171;
+		margin-top: 10px;
+		border-top: 1px dashed #2c0b54;
+		padding-top: 12px;
+	}
+
+	.logout-icon {
+		color: #f87171;
+	}
+
+	/* Main Content Area */
+	.panel-content-area {
+		flex: 1;
+		padding: 20px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		overflow-y: auto;
+	}
+
+	.panel-title-bar {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		border-bottom: 1px solid #280a4e;
+		padding-bottom: 10px;
+	}
+
+	.title-left {
+		display: flex;
+		align-items: baseline;
+		gap: 12px;
+	}
+
+	.main-heading {
+		font-family: var(--font-retro);
+		font-size: 1.15rem;
+		color: #ffffff;
+		letter-spacing: 0.5px;
+	}
+
+	.version-label {
+		font-size: 0.8rem;
+		color: #94a3b8;
+	}
+
+	.title-right .breadcrumb-item {
+		font-size: 0.85rem;
+		color: #94a3b8;
+	}
+
+	/* 4 Metric Cards Row */
+	.metric-cards-row {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 14px;
+	}
+
+	.metric-box {
+		padding: 14px 16px;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	}
+
+	.bg-purple-metric {
+		background: #6b21a8;
+	}
+	.bg-green-metric {
+		background: #0d9488;
+	}
+	.bg-orange-metric {
+		background: #d97706;
+	}
+	.bg-blue-metric {
+		background: #0284c7;
+	}
+
+	.metric-icon-slot {
+		width: 38px;
+		height: 38px;
+		background: rgba(0, 0, 0, 0.2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.metric-icon-slot svg {
+		width: 22px;
+		height: 22px;
+		fill: #ffffff;
+	}
+
+	.metric-content {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.15;
+	}
+
+	.metric-title {
+		font-family: var(--font-retro);
+		font-size: 0.55rem;
+		color: #ffffff;
+		letter-spacing: 0.5px;
+		margin-bottom: 3px;
+	}
+
+	.metric-number {
+		font-family: var(--font-retro);
+		font-size: 1.35rem;
+		font-weight: 700;
+		color: #ffffff;
+		margin-bottom: 2px;
+	}
+
+	.metric-sub {
+		font-size: 0.72rem;
+		color: rgba(255, 255, 255, 0.85);
+	}
+
+	/* Split Columns Grid */
+	.panel-columns-grid {
+		display: grid;
+		grid-template-columns: 1.8fr 1.2fr;
+		gap: 18px;
+	}
+
+	.panel-card {
+		background: #120324;
+		border: 1px solid #581c87;
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.card-top-bar {
+		background: #1b0634;
+		padding: 10px 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid #581c87;
+	}
+
+	.card-section-heading {
+		font-family: var(--font-retro);
+		font-size: 0.75rem;
+		color: #ffe600;
+		letter-spacing: 0.5px;
+	}
+
+	.window-controls {
+		display: flex;
+		gap: 4px;
+	}
+
+	.win-btn {
+		font-family: monospace;
+		font-size: 0.75rem;
+		background: #250a47;
+		border: 1px solid #581c87;
+		color: #a78bfa;
+		padding: 1px 6px;
+		cursor: default;
+	}
+
+	/* Table Section */
+	.table-responsive {
+		overflow-x: auto;
+		flex: 1;
+	}
+
+	.panel-table {
+		width: 100%;
+		border-collapse: collapse;
+		text-align: left;
+	}
+
+	.panel-table th {
+		font-family: var(--font-retro);
+		font-size: 0.6rem;
+		color: #ffe600;
+		padding: 10px 14px;
+		border-bottom: 1px solid #3b0e63;
+		background: #17042f;
+	}
+
+	.panel-table td {
+		padding: 9px 14px;
+		font-size: 0.88rem;
+		border-bottom: 1px solid #1e0638;
+		color: #f1f5f9;
+	}
+
+	.panel-table tr:hover td {
+		background: #1c0638;
+	}
+
+	.col-num {
+		font-family: var(--font-retro);
+		font-size: 0.65rem;
+		color: #ffffff;
+	}
+
+	.col-estudiante {
+		font-weight: 500;
+	}
+
+	.col-fecha {
+		color: #cbd5e1;
+		font-size: 0.82rem;
+	}
+
+	.col-puntaje {
+		font-family: var(--font-retro);
+		font-size: 0.68rem;
+		color: #ffffff;
+	}
+
+	.registros-footer {
+		padding: 12px 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-top: 1px solid #2e0952;
+		background: #140428;
+	}
+
+	.btn-nuevo-registro {
+		font-family: var(--font-retro);
+		font-size: 0.62rem;
+		background: #ffe600;
+		color: #000000;
+		border: 1px solid #ffffff;
+		padding: 7px 14px;
+		font-weight: 700;
+		cursor: pointer;
+		box-shadow: 2px 2px 0px #3b0e63;
+	}
+
+	.btn-nuevo-registro:hover {
+		background: #ffea38;
+	}
+
+	.link-ver-partidas {
+		font-size: 0.8rem;
+		color: #ffe600;
+		text-decoration: underline;
+	}
+
+	/* Right Column: Acceso al Juego */
+	.juego-items-wrapper {
+		padding: 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		flex: 1;
+	}
+
+	.juego-box-item {
+		background: #180530;
+		border: 1px solid #4a1470;
+		padding: 12px 14px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.juego-item-title {
+		font-family: var(--font-retro);
+		font-size: 0.68rem;
+		color: #ffffff;
+		margin-bottom: 3px;
+	}
+
+	.juego-item-desc {
+		font-size: 0.8rem;
+		color: #94a3b8;
+	}
+
+	.btn-jugar-small {
+		font-family: var(--font-retro);
+		font-size: 0.65rem;
+		background: #ffe600;
+		color: #000000;
+		border: 1px solid #ffffff;
+		padding: 6px 14px;
+		text-decoration: none;
+		font-weight: 700;
+		box-shadow: 2px 2px 0px #3b0e63;
+	}
+
+	.btn-jugar-small:hover {
+		background: #ffea38;
+	}
+
+	.badge-activo {
+		font-family: var(--font-retro);
+		font-size: 0.55rem;
+		background: #059669;
+		color: #ffffff;
+		padding: 4px 8px;
+		border-radius: 2px;
+	}
+
+	.acceso-footer {
+		padding: 12px 14px;
+		text-align: center;
+		border-top: 1px solid #2e0952;
+		background: #140428;
+	}
+
+	.link-pantalla-juego {
+		font-family: var(--font-retro);
+		font-size: 0.62rem;
+		color: #ffe600;
+		text-decoration: none;
+	}
+
+	.link-pantalla-juego:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 1024px) {
+		.metric-cards-row {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.panel-columns-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.panel-body-container {
+			flex-direction: column;
+		}
+		.panel-sidebar {
+			width: 100%;
+		}
+		.metric-cards-row {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

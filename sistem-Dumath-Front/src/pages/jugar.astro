@@ -1,0 +1,276 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="DUMATH - Zona de Juego">
+	<div class="game-view-wrapper">
+		<!-- Topbar Arcade Retro -->
+		<header class="game-topbar">
+			<div class="topbar-left">
+				<a href="/demo" class="game-logo">
+					<span class="logo-main">DUMATH</span>
+					<span class="logo-badge">ZONA DE JUEGO</span>
+				</a>
+			</div>
+
+			<div class="topbar-right">
+				<button id="btn-fullscreen" class="btn-topbar" title="Pantalla Completa">
+					⛶ PANTALLA COMPLETA
+				</button>
+				<a href="/login" class="btn-topbar btn-login">
+					INICIAR SESIÓN
+				</a>
+				<a href="/panel" class="btn-topbar btn-panel">
+					PANEL DE CONTROL
+				</a>
+			</div>
+		</header>
+
+		<!-- Contenedor del Juego Godot 4 Web -->
+		<main class="game-main-area">
+			<div class="game-viewport-card" id="game-viewport">
+				<iframe 
+					id="godot-iframe"
+					src="/game/DUMATH_DEMO_OFICIAL_NMC.html" 
+					title="Videojuego DUMATH"
+					allow="autoplay; fullscreen; focus-without-user-activation *"
+					tabindex="0"
+				></iframe>
+			</div>
+
+			<!-- Barra de Controles Rápidos Arcade -->
+			<div class="game-footer-bar">
+				<div class="control-hints">
+					<span class="hint-item"><kbd class="retro-kbd">W A S D</kbd> o <kbd class="retro-kbd">↑ ← ↓ →</kbd> Moverse</span>
+					<span class="hint-item"><kbd class="retro-kbd">ESPACIO</kbd> o <kbd class="retro-kbd">ENTER</kbd> Interactuar / Resolver</span>
+				</div>
+				<div class="game-status-badge">
+					<span class="status-dot"></span>
+					<span>MODO JUEGO ACTIVO</span>
+				</div>
+			</div>
+		</main>
+	</div>
+</Layout>
+
+<script>
+	const fullscreenBtn = document.getElementById('btn-fullscreen');
+	const gameViewport = document.getElementById('game-viewport');
+
+	if (fullscreenBtn && gameViewport) {
+		fullscreenBtn.addEventListener('click', () => {
+			if (!document.fullscreenElement) {
+				gameViewport.requestFullscreen().catch(err => {
+					console.error('Error al entrar a pantalla completa:', err);
+				});
+			} else {
+				document.exitFullscreen().catch(err => {
+					console.error('Error al salir de pantalla completa:', err);
+				});
+			}
+		});
+	}
+</script>
+
+<style>
+	.game-view-wrapper {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		background: #090214;
+	}
+
+	/* Topbar */
+	.game-topbar {
+		height: 60px;
+		background: #140428;
+		border-bottom: 2px solid #581c87;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 24px;
+		flex-shrink: 0;
+	}
+
+	.game-logo {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		text-decoration: none;
+	}
+
+	.logo-main {
+		font-family: var(--font-retro);
+		font-size: 1.2rem;
+		color: #ffe600;
+		letter-spacing: 2px;
+		text-shadow: 0 0 10px rgba(255, 230, 0, 0.5);
+	}
+
+	.logo-badge {
+		font-family: var(--font-retro);
+		font-size: 0.55rem;
+		background: #7e22ce;
+		color: #ffffff;
+		padding: 3px 6px;
+		border-radius: 2px;
+		letter-spacing: 1px;
+	}
+
+	.topbar-right {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.btn-topbar {
+		font-family: var(--font-retro);
+		font-size: 0.65rem;
+		padding: 8px 14px;
+		background: #1f073d;
+		color: #ffffff;
+		border: 1px solid #581c87;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all 0.15s ease;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.btn-topbar:hover {
+		background: #2a0b52;
+		border-color: #ffe600;
+		color: #ffe600;
+	}
+
+	.btn-login {
+		background: #270f47;
+		border-color: #8b2fc9;
+		color: #f3e8ff;
+	}
+
+	.btn-login:hover {
+		background: #3b1764;
+		border-color: #ffe600;
+		color: #ffe600;
+	}
+
+	.btn-panel {
+		background: #ffe600;
+		color: #000000;
+		border-color: #ffffff;
+		font-weight: 700;
+	}
+
+	.btn-panel:hover {
+		background: #ffea38;
+		color: #000000;
+	}
+
+	/* Main Game Area */
+	.game-main-area {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 16px;
+		gap: 12px;
+	}
+
+	.game-viewport-card {
+		width: 100%;
+		max-width: 1200px;
+		height: calc(100vh - 130px);
+		max-height: 720px;
+		background: #000000;
+		border: 2px solid #581c87;
+		box-shadow: 0 0 30px rgba(88, 28, 135, 0.45);
+		position: relative;
+		display: flex;
+	}
+
+	.game-viewport-card:fullscreen {
+		max-width: 100%;
+		max-height: 100%;
+		height: 100vh;
+		border: none;
+	}
+
+	#godot-iframe {
+		width: 100%;
+		height: 100%;
+		border: none;
+		display: block;
+		background: #000000;
+	}
+
+	/* Footer Bar */
+	.game-footer-bar {
+		width: 100%;
+		max-width: 1200px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 6px 14px;
+		background: #140726;
+		border: 1px solid #3b1764;
+		font-size: 0.75rem;
+		color: #c084fc;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.control-hints {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+		flex-wrap: wrap;
+	}
+
+	.retro-kbd {
+		display: inline-block;
+		font-family: var(--font-retro);
+		font-size: 0.55rem;
+		background: #270f47;
+		color: #ffe600;
+		border: 1px solid #7e22ce;
+		padding: 2px 6px;
+		border-radius: 2px;
+		box-shadow: 1px 1px 0px #090214;
+	}
+
+	.game-status-badge {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--font-retro);
+		font-size: 0.55rem;
+		color: #22c55e;
+	}
+
+	.status-dot {
+		width: 7px;
+		height: 7px;
+		background: #22c55e;
+		border-radius: 50%;
+		box-shadow: 0 0 6px #22c55e;
+	}
+
+	@media (max-width: 768px) {
+		.game-topbar {
+			padding: 0 14px;
+		}
+		.game-main-area {
+			padding: 8px;
+		}
+		.game-viewport-card {
+			height: calc(100vh - 120px);
+		}
+		.game-footer-bar {
+			justify-content: center;
+			text-align: center;
+		}
+	}
+</style>

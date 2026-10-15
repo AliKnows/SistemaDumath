@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+		<title>DUMATH_DEMO_OFICIAL_NMC</title>
+		<style>
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	color: white;
+	background-color: black;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+	display: block;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#status, #status-splash, #status-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+#status, #status-splash {
+	top: 0;
+	bottom: 0;
+}
+
+#status {
+	background-color: #090214;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	visibility: visible;
+}
+
+#status-splash {
+	max-height: 70%;
+	max-width: 85%;
+	margin: auto;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-progress-container {
+	position: absolute;
+	bottom: 8%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 75%;
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	z-index: 10;
+}
+
+#status-text {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffe600;
+	text-shadow: 0 0 8px rgba(255, 230, 0, 0.7);
+	letter-spacing: 1px;
+	text-align: center;
+}
+
+#status-progress {
+	display: block;
+	width: 100%;
+	height: 18px;
+	appearance: none;
+	-webkit-appearance: none;
+	border: 2px solid #a855f7;
+	border-radius: 4px;
+	background: #1e0b38;
+	box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+}
+
+#status-progress::-webkit-progress-bar {
+	background: #1e0b38;
+	border-radius: 2px;
+}
+
+#status-progress::-webkit-progress-value {
+	background: linear-gradient(90deg, #a855f7, #ffe600);
+	border-radius: 2px;
+}
+
+#status-progress::-moz-progress-bar {
+	background: linear-gradient(90deg, #a855f7, #ffe600);
+	border-radius: 2px;
+}
+
+#status-notice {
+	display: none;
+	background-color: #5b1025;
+	border-radius: 0.5rem;
+	border: 2px solid #ef4444;
+	color: #fecaca;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 14px;
+	line-height: 1.4;
+	margin: 0 2rem;
+	overflow: hidden;
+	padding: 1rem;
+	text-align: center;
+	z-index: 20;
+}
+		</style>
+		<link id="-gd-engine-icon" rel="icon" type="image/png" href="DUMATH_DEMO_OFICIAL_NMC.icon.png" />
+<link rel="apple-touch-icon" href="DUMATH_DEMO_OFICIAL_NMC.apple-touch-icon.png"/>
+
+	</head>
+	<body>
+		<canvas id="canvas">
+			Your browser does not support the canvas tag.
+		</canvas>
+
+		<noscript>
+			Your browser does not support JavaScript.
+		</noscript>
+
+		<div id="status">
+			<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="DUMATH_DEMO_OFICIAL_NMC.png" alt="DUMATH">
+			<div id="status-progress-container">
+				<span id="status-text">INICIANDO MOTOR DUMATH...</span>
+				<progress id="status-progress" value="0" max="100"></progress>
+			</div>
+			<div id="status-notice"></div>
+		</div>
+
+		<script src="DUMATH_DEMO_OFICIAL_NMC.js"></script>
+		<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"DUMATH_DEMO_OFICIAL_NMC","experimentalVK":false,"fileSizes":{"DUMATH_DEMO_OFICIAL_NMC.pck":53013232,"DUMATH_DEMO_OFICIAL_NMC.wasm":37902138},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_THREADS_ENABLED = false;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusText = document.getElementById('status-text');
+	const statusNotice = document.getElementById('status-notice');
+
+	let initializing = true;
+	let statusMode = '';
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		if (err instanceof Error) {
+			setStatusNotice(err.message);
+		} else if (typeof err === 'string') {
+			setStatusNotice(err);
+		} else {
+			setStatusNotice('An unknown error occurred.');
+		}
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+
+	if (missing.length !== 0) {
+		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
+			let serviceWorkerRegistrationPromise;
+			try {
+				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+			} catch (err) {
+				serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
+			}
+			Promise.race([
+				serviceWorkerRegistrationPromise.then((registration) => {
+					if (registration != null) {
+						return Promise.reject(new Error('Service worker already exists.'));
+					}
+					return registration;
+				}).then(() => engine.installServiceWorker()),
+				new Promise((resolve) => {
+					setTimeout(() => resolve(), 2000);
+				}),
+			]).then(() => {
+				window.location.reload();
+			}).catch((err) => {
+				console.error('Error while registering service worker:', err);
+			});
+		} else {
+			const missingMsg = 'Error\nRequisitos de Godot Web no encontrados:\n';
+			displayFailureNotice(missingMsg + missing.join('\n'));
+		}
+	} else {
+		setStatusMode('progress');
+		statusText.textContent = 'DESCARGANDO RECURSOS DEL JUEGO (90.9 MB)...';
+		engine.startGame({
+			'onProgress': function (current, total) {
+				if (current > 0 && total > 0) {
+					statusProgress.value = current;
+					statusProgress.max = total;
+					const pct = Math.round((current / total) * 100);
+					const currentMB = (current / 1048576).toFixed(1);
+					const totalMB = (total / 1048576).toFixed(1);
+					statusText.textContent = `CARGANDO DUMATH: ${pct}% (${currentMB} MB / ${totalMB} MB)`;
+				} else {
+					statusProgress.removeAttribute('value');
+					statusProgress.removeAttribute('max');
+				}
+			},
+		}).then(() => {
+			setStatusMode('hidden');
+		}, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>
+
